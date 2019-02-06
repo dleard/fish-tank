@@ -1,11 +1,12 @@
-class GoFish extends Fish {
+class BiteFish extends Fish {
 
   constructor(options) {
     super(options);
     this.surgeSecondsLeft = 0;
     this.maxSurge = 1.0;
     this.surgMult = 3.0;
-    this.imageUri = '/images/fastfish.png';
+    this.imageUri = '/images/bitefish.gif';
+    this.isTasty = false;
   }
 
   updateOneTick() {
@@ -20,6 +21,16 @@ class GoFish extends Fish {
 
 
   onClick(event) {
-    this.surgeSecondsLeft = this.maxSurge;
+    const tank = window.fishtank;
+    const denizens = Object.values(window.fishtank.denizens);
+    const biteFishPosition = this.position;
+    let closeFish;
+    closeFish = tank.getProximateDenizens(biteFishPosition, 100);
+    closeFish.forEach(function(fish) {
+      if (fish.isTasty) {
+        fish.kill();
+      }
+    });
+    
   }
 }
